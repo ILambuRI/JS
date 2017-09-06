@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+	<div class="screen"></div>
+	<br>
+	<div class="template">
+		<div class="cell"></div>
+	</div>
+	<style>
+		.screen {
+			width: 220px;
+			height: 220px;
+			background: green;
+		}
+
+		.cell {
+			width: 20px;
+			height: 20px;
+			background: yellow;
+			border: 1px solid black;
+			float: left;
+		}
+
+		.live {
+			background: black;
+		}
+
+		.template {
+			display: none;
+		}
+	</style>
+
+	<script>
+		//alert("Hello world!");
+		var current = [
+			[1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+			[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+			[0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+			[0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+			[0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+			[0, 1, 1, 1, 0, 0, 0, 1, 1, 0],
+			[0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		];
+
+		var template = document.querySelector(".template");
+		var screen = document.querySelector(".screen");
+		
+		//screen.appendChild(template);
+		for (var t = 0; t < 1000; t++) {
+			setTimeout(function () {
+				screen.innerHTML = "";
+				var new_state = current.slice(0);
+
+				for (var i = 0; i < current.length; i++) {
+					for (var j = 0; j < current[i].length; j++) {
+						//var el = document.createElement("div");
+						//el.innerHTML = template.innerHTML;
+
+						var top1 = i - 1;
+						var bottom = i + 1;
+						var left = j - 1;
+						var right = j + 1;
+
+						if (i == 0)
+							top1 = current.length - 1;
+						if (j == 0)
+							left = current[i].length - 1;
+						if (i == current.length - 1)
+							bottom = 0;
+						if (j == current[i].length - 1)
+							right = 0;
+
+
+						var sum = current[top1][left] +
+							current[top1][j] +
+							current[top1][right] +
+							current[i][left] +
+							current[i][right] +
+							current[bottom][left] +
+							current[bottom][j] +
+							current[bottom][right];
+
+						if (current[i][j] == 1 && (sum == 2 || sum == 3)) {
+							new_state[i][j] = 1;
+						}
+						else if (current[i][j] == 0 && sum == 3) {
+							new_state[i][j] = 1;
+						}
+						else {
+							new_state[i][j] = 0;
+						}
+
+						var el = template.querySelector("div").cloneNode(true);
+						if (current[i][j] == 1) {
+							//el.querySelector('div').setAttribute('class', 'cell live');
+							el.setAttribute('class', 'cell live');
+						}
+						//screen.innerHTML += el.innerHTML;	
+						screen.appendChild(el);
+
+
+
+
+					}
+				}
+				current = new_state.slice(0);
+
+
+			}, 800 * t);
+		}
+
+	</script>
+</body>
+
+</html>

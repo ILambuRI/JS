@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS magic</title>
+</head>
+<body>
+    <ul class="list"></ul>
+    <input type="text" id="text" /> <button id="btn_add">Add</button>
+    <script>
+        var $todo = ['test', 'test2'];
+
+        var renderTask = function()
+        {
+            var $list = document.querySelector('.list');
+            $list.innerHTML = '';
+
+            $todo.forEach(function($val, $key)
+            {
+                var $nodeLi = document.createElement('li');
+                $nodeLi.innerHTML = $val;
+
+                var $nodeDelBtn = document.createElement('button');
+                $nodeDelBtn.innerHTML = 'Delete this!';
+                $nodeDelBtn.addEventListener('click', function()
+                {
+                    $todo.splice($key, 1);
+                    renderTask();
+                });
+
+                $nodeLi.appendChild($nodeDelBtn);
+                $list.appendChild($nodeLi);
+            });
+        }
+
+        document.querySelector('#btn_add').addEventListener('click', function(){
+            $todo.push(document.querySelector('#text').value);
+            document.querySelector('#text').value = '';
+            renderTask();
+        });
+
+        renderTask();
+    </script>
+</body>
+</html>
+

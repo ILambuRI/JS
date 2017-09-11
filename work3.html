@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS magic</title>
+</head>
+	<body>
+		<div class="block">
+
+		</div>
+		<script>
+			var $blocks = 
+			[
+				{	img : 'http://www.cutestpaw.com/wp-content/uploads/2011/11/cute-dog1.jpg',
+					desc : 'Funny dog',
+					type : 'dog'
+				},
+				
+				{	img : 'http://cdn2-www.dogtime.com/assets/uploads/2011/03/cute-dog-names.jpg',
+					desc : 'Cute dog',
+					type : 'dog'
+				},
+				{	img : 'https://i.pinimg.com/736x/88/50/2b/88502b58b2ca3509be47473044fde8cc--wink-wink-adorable-animals.jpg',
+					desc : 'Funny cat',
+					type : 'cat'
+				},
+				{	img : 'https://amazinganimalphotos.com/wp-content/uploads/2013/04/l-omggg-this-is-the-cutest-thing-in-the-entire-world.jpg',
+					desc : 'Cute cat',
+					type : 'cat'
+				},
+				{	img : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJM05undp78evU-ZL3JnOPGUT26H6NZIEXA5UV3n-TuxgsL_um',
+					desc : 'Funny horse',
+					type : 'horse'
+				},
+				{	img : 'https://i.pinimg.com/736x/18/e2/ea/18e2ea99158ec1bf0b029a4187a0a01f--cute-horses-pretty-horses.jpg',
+					desc : 'Cute horse',
+					type : 'horse'
+				}
+			];
+			
+			var DivBlock = function ($img_src, $desc_txt, $type_txt)
+			{
+				this.img = $img_src;
+				this.desc = $desc_txt;
+				this.type = $type_txt;
+				
+				this.drow = function ($mainDiv)
+				{
+					//console.log($mainDiv);
+					var $div = document.createElement('div');
+					var $img = document.createElement('img');
+					var $desc = document.createElement('p');
+					var $title = document.createElement('p');
+					
+					$img.src = this.img;
+					$title.innerHTML = this.type;
+					$desc.innerHTML = this.desc;
+					
+					$div.appendChild($img);
+					$div.appendChild($title);
+					$div.appendChild($desc);
+					$mainDiv.appendChild($div);
+				
+				}
+			}
+			
+			var mainDiv = document.body;
+			// var mainDiv = document.querySelector('.block');
+			
+			$blocks.forEach(function ($val, $key) {
+				if ($val.type == 'cat')
+				{
+					var $cat = new DivBlock($val.img, $val.desc, $val.type);
+					$cat.drow(mainDiv);
+				}
+				else if ($val.type == 'dog')
+				{
+					var $dog = new DivBlock($val.img, $val.desc, $val.type);
+					$dog.drow(mainDiv);
+				}
+			});
+			
+
+			
+		</script>
+	</body>
+</html>

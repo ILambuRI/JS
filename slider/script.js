@@ -11,7 +11,7 @@ var next  = document.getElementById('next');
 var maxPos = width * (listImg.length - 1);
 
 function reviewConstructor(selected) {
-    let re = /([\w+/:]+)[^.]/g;
+    let re = /([\w+/:-]+)[^.]/g;
     reviewIcon.innerHTML = '';
     for (var i = 0; i < listImg.length; i++) {
         let str = listImg[i].currentSrc;
@@ -20,7 +20,7 @@ function reviewConstructor(selected) {
         
         let div = document.createElement('div');
 
-        (i == selected) ?
+        ( (selected ==  (i + ' selected')) || (i == selected) ) ?
             div.className = i + ' selected' :
             div.className = i;
         

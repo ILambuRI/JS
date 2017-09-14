@@ -1,148 +1,9 @@
-var data = [
-    /* -- t-shirt -- */
-    {category : 't-shirt',
-    size : '30',
-    color : 'green',
-    price : '100',
-    name : 'Cool t-shirt'
-    },
-
-    {category : 't-shirt',
-    size : '35',
-    color : 'red',
-    price : '150',
-    name : 'Beach t-shirt'
-    },
-
-    {category : 't-shirt',
-    size : '40',
-    color : 'yellow',
-    price : '200',
-    name : 'Gangster t-shirt'
-    },
-
-    {category : 't-shirt',
-    size : '45',
-    color : 'orange',
-    price : '250',
-    name : 'Super t-shirt'
-    },
-
-    {category : 't-shirt',
-    size : '50',
-    color : 'green',
-    price : '300',
-    name : 'Mega t-shirt'
-    },
-
-    {category : 't-shirt',
-    size : '55',
-    color : 'red',
-    price : '350',
-    name : 'Puper t-shirt'
-    },
-
-    /* -- cap -- */
-    {category : 'cap',
-    size : '30',
-    color : 'green',
-    price : '250',
-    name : 'Cool cap'
-    },
-
-    {category : 'cap',
-    size : '35',
-    color : 'red',
-    price : '300',
-    name : 'Beach cap'
-    },
-
-    {category : 'cap',
-    size : '40',
-    color : 'yellow',
-    price : '400',
-    name : 'Gangster cap'
-    },
-
-    {category : 'cap',
-    size : '45',
-    color : 'orange',
-    price : '450',
-    name : 'Super cap'
-    },
-
-    {category : 'cap',
-    size : '50',
-    color : 'red',
-    price : '500',
-    name : 'Mega cap'
-    },
-
-    {category : 'cap',
-    size : '55',
-    color : 'green',
-    price : '600',
-    name : 'Puper cap'
-    },
-
-    /* -- sweatshirt -- */
-    {category : 'sweatshirt',
-    size : '30',
-    color : 'orange',
-    price : '200',
-    name : 'Cool sweatshirt'
-    },
-
-    {category : 'sweatshirt',
-    size : '35',
-    color : 'yellow',
-    price : '250',
-    name : 'Beach sweatshirt'
-    },
-
-    {category : 'sweatshirt',
-    size : '40',
-    color : 'green',
-    price : '300',
-    name : 'Gangster sweatshirt'
-    },
-
-    {category : 'sweatshirt',
-    size : '45',
-    color : 'red',
-    price : '350',
-    name : 'Super sweatshirt'
-    },
-
-    {category : 'sweatshirt',
-    size : '50',
-    color : 'yellow',
-    price : '450',
-    name : 'Mega sweatshirt'
-    },
-
-    {category : 'sweatshirt',
-    size : '55',
-    color : 'orange',
-    price : '650',
-    name : 'Puper sweatshirt'
-    }
-];
-
-var arrResult = [];
-
+/* Filter settings */
 var filterSettings = {category : '',
                       size : '',
-                      color : ''
+                      color : '',
+                      sort : ''
 };
-
-var sizes = ['Sizes', 30, 35, 40, 45, 50, 55];
-var catigories = ['Categories', 'Cap', 'T-shirt', 'Sweatshirt'];
-var colors = ['Colors', 'Green', 'Red', 'Yellow', 'Orange'];
-
-var lowest = document.querySelector('#lowest');
-var highest = document.querySelector('#highest');
-
 
 function getByCategory(arr, category) {
     if (!category) return arr;
@@ -159,31 +20,101 @@ function getByColor(arr, color) {
     return arr.filter(item => item.color == color);
 }
 
-function dataFilter(category, size, color) {
-    let arrRes = getByColor( getBySize( getByCategory( data, category), size), color);
+/* Array filtering by settings */
+function dataFilter(category, size, color, sort, dbArr) {
+    let arrRes = getByColor( getBySize( getByCategory( dbArr, category), size), color);
+
+    if (sort == 'low')
+        return arrRes.sort(function(a, b) { return a.price - b.price; });
+
+    if (sort == 'high')
+        return arrRes.sort(function(a, b) { return b.price - a.price; });
+
+    if ( !sort )
+        return arrRes.sort(function(a, b) { return a.id - b.id; });
+
     return arrRes;
 }
 
-function setFilterSettings(id, value) {
-    if (id == 'size') {
-        if (value == 'Sizes') value = '';
-        filterSettings.size = value;
-    }
+/* Set or reset setting when the button is pressed */
+function setBtnFilterSettings(id, value, element) {
+    switch (id) {
+        case 'size':
+            if (value == 'Sizes') {
+                value = '';
+                element.innerHTML = 'Sizes';            
+            }
+            else {
+                element.innerHTML = value;
+            }
 
-    if (id == 'color') {
-        if (value == 'Colors') value = '';
-        filterSettings.color = value.toLowerCase();
-    }
+            filterSettings.size = value;
+        break;
 
-    if (id == 'category') {
-        if (value == 'Categories') value = '';
-        filterSettings.category = value.toLowerCase();
+        case 'color':
+            if (value == 'Colors') {
+                value = '';
+                element.innerHTML = 'Colors';            
+            }
+            else {
+                element.innerHTML = value;
+            }
+
+            filterSettings.color = value.toLowerCase();
+        break;
+
+        case 'category':
+            if (value == 'Categories') {
+                value = '';
+                element.innerHTML = 'Categories';            
+            }
+            else {
+                element.innerHTML = value;
+            }
+
+            filterSettings.category = value.toLowerCase();
+        break;
+
+        case 'btn_sort':
+            if (value == 'Sort') {
+                value = '';
+                element.innerHTML = 'Sort';            
+            }
+
+            filterSettings.sort = value;
+        break;
     }
 }
 
+function createClearButton(putDiv) {
+    let clearBtn = document.createElement('button');
+    clearBtn.setAttribute('type', 'button');
+    clearBtn.setAttribute('class', 'btn btn-dark');
+    clearBtn.setAttribute('id', 'filter_clear');
 
-function createDropdownList (id, arr) {
-    // "use strict";
+    let span = document.createElement('span');
+    span.innerHTML = 'Clear Filter &times;';
+    clearBtn.appendChild(span);
+
+    clearBtn.addEventListener('click', function() {
+        let categoryButton = document.querySelector('#btn_category');
+        let sizeButton = document.querySelector('#btn_size');
+        let colorButton = document.querySelector('#btn_color');
+        let sortButton = document.querySelector('#btn_sort');
+        
+        setBtnFilterSettings('category', 'Categories', categoryButton);  
+        setBtnFilterSettings('size', 'Sizes', sizeButton);
+        setBtnFilterSettings('color', 'Colors', colorButton);
+        setBtnFilterSettings('btn_sort', 'Sort', sortButton);
+        
+        clearBtn.remove();
+        createGoodsList(data);
+    });
+    
+    putDiv.appendChild(clearBtn);
+}
+
+function createDropdownList (id, arr, parentDiv) {
     let div = document.querySelector('#' + id);
 
     arr.forEach(function(value) {
@@ -193,54 +124,44 @@ function createDropdownList (id, arr) {
 
         span.addEventListener('click', function() {
             let button = document.querySelector('#btn_' + id);
-            button.innerHTML = value;
 
-            setFilterSettings(id, value);
+            setBtnFilterSettings(id, value, button);
 
-            arrResult = dataFilter(filterSettings.category, filterSettings.size, filterSettings.color);
-            createGoodsList(arrResult);
+            if ( filterSettings.category || 
+                 filterSettings.size || 
+                 filterSettings.color || 
+                 filterSettings.sort ) {
+
+                if ( !document.querySelector('#filter_clear') ) {
+                    createClearButton(parentDiv);
+                }
+            }
+            else {
+                if (clearBtn = document.querySelector('#filter_clear'))
+                    parentDiv.removeChild(clearBtn);
+            }
+
+            createGoodsList(data);
         });
 
         div.appendChild(span);
     });
 }
 
-
-lowest.addEventListener('click', function() {
-    arrResult = dataFilter(filterSettings.category, filterSettings.size, filterSettings.color);
-
-    arrResult.sort(function(a, b) {
-        return a.price - b.price;
-    });
-
-    createGoodsList(arrResult);
-});
-
-highest.addEventListener('click', function() {
-    arrResult = dataFilter(filterSettings.category, filterSettings.size, filterSettings.color);
-
-    arrResult.sort(function(a, b) {
-        return b.price - a.price;
-    });
-
-    createGoodsList(arrResult);
-});
-
-function createGoodsList(arr) {
+function createGoodsList(dbArr) {
+    let arr = dataFilter(filterSettings.category, filterSettings.size, filterSettings.color, filterSettings.sort, dbArr);
+    
     let goodsDiv = document.querySelector('#goods');
     goodsDiv.innerHTML = '';
     
     arr.forEach(function(value) {
-        var spaceDiv = document.createElement('div');
-        spaceDiv.setAttribute('class', 'col-md-1');
-
         let div = document.createElement('div');
         div.setAttribute('class', 'col-md-3 card');
-        div.setAttribute('style', 'width: 20rem;');
+        div.setAttribute('style', 'width: 20rem; margin-bottom: 30px; margin-left: 20px;');
 
         let img = document.createElement('img');
         img.setAttribute('class', 'card-img-top');
-        img.setAttribute('src', 'http://scene7.zumiez.com/is/image/zumiez/pdp_hero/Zine-2nd-Inning-Heather-Grey-%26-Marled-Red-Baseball-Shirt-_225749-front.jpg');
+        img.setAttribute('src', value.imgLabel);
         img.setAttribute('alt', value.category + ' ' + value.name);
 
         let inDiv = document.createElement('div');
@@ -254,15 +175,51 @@ function createGoodsList(arr) {
         div.appendChild(img);
         div.appendChild(inDiv);
 
-        goodsDiv.appendChild(spaceDiv);
         goodsDiv.appendChild(div);
     });
 }
 
-createDropdownList ('size', sizes);
-createDropdownList ('color', colors);
-createDropdownList ('category', catigories);
+var sizes = ['Sizes'];
+var dbDistinctSizes = [30, 35, 40, 45, 50, 55];
+Array.prototype.push.apply(sizes, dbDistinctSizes);
 
-arrResult = dataFilter(filterSettings.category, filterSettings.size, filterSettings.color);
+var catigories = ['Categories'];
+var dbDistinctCatigories = ['Cap', 'T-shirt', 'Sweatshirt'];
+Array.prototype.push.apply(catigories, dbDistinctCatigories);
 
-createGoodsList(arrResult);
+var colors = ['Colors'];
+var dbDistinctColors = ['Green', 'Red', 'Yellow', 'Orange'];
+Array.prototype.push.apply(colors, dbDistinctColors);
+
+var filterRowDiv = document.querySelector('#filter_row');
+var sortBtn = document.querySelector('#btn_sort');
+var lowest = document.querySelector('#lowest');
+var highest = document.querySelector('#highest');
+
+createDropdownList ('size', sizes, filterRowDiv);
+createDropdownList ('color', colors, filterRowDiv);
+createDropdownList ('category', catigories, filterRowDiv);
+
+lowest.addEventListener('click', function() {
+    sortBtn.innerHTML = lowest.innerHTML;
+
+    if ( !document.querySelector('#filter_clear') ) {
+        createClearButton(filterRowDiv);
+    }
+
+    setBtnFilterSettings('btn_sort', 'low');
+    createGoodsList(data);
+});
+
+highest.addEventListener('click', function() {
+    sortBtn.innerHTML = highest.innerHTML;
+    
+    if ( !document.querySelector('#filter_clear') ) {
+        createClearButton(filterRowDiv);
+    }
+
+    setBtnFilterSettings('btn_sort', 'high');
+    createGoodsList(data);
+});
+
+createGoodsList(data);

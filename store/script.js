@@ -5,7 +5,7 @@ var filterSettings = {category : '',
                       sort : ''
 };
 
-function getByCategory(arr, category) {
+/* function getByCategory(arr, category) {
     if (!category) return arr;
     return arr.filter(item => item.category == category);
 }
@@ -19,9 +19,57 @@ function getByColor(arr, color) {
     if (!color) return arr;
     return arr.filter(item => item.color == color);
 }
+ */
+
+
+function getByCategory(element, category) {
+    if (category == '')
+        return true;
+    if (element.category == category)
+        return true;
+
+    return false;
+}
+
+function getBySize(element, size) {
+    if (size == '')
+        return true;
+    if (element.size == size)
+        return true;
+
+    return false;
+}
+
+function getByColor(element, color) {
+    if (color == '')
+        return true;
+    if (element.color == color)
+        return true;
+
+    return false;
+}
+
+function dataFilter(category, size, color, sort, dbArr) {
+    let arrRes = dbArr.filter(function (element){
+        if (getByCategory(element, category) &&
+            getBySize(element, size) &&
+            getByColor(element, color))
+            { return true; }
+        
+        return false;
+    });
+
+    if (sort == 'low')
+        return arrRes.sort(function(a, b) { return a.price - b.price; });
+
+    if (sort == 'high')
+        return arrRes.sort(function(a, b) { return b.price - a.price; });
+
+    return arrRes;
+}
 
 /* Array filtering by settings */
-function dataFilter(category, size, color, sort, dbArr) {
+/* function dataFilter(category, size, color, sort, dbArr) {
     let arrRes = getByColor( getBySize( getByCategory( dbArr, category), size), color);
 
     if (sort == 'low')
@@ -34,7 +82,7 @@ function dataFilter(category, size, color, sort, dbArr) {
         return arrRes.sort(function(a, b) { return a.id - b.id; });
 
     return arrRes;
-}
+} */
 
 /* Set or reset setting when the button is pressed */
 function setBtnFilterSettings(id, value, element) {

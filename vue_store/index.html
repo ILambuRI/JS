@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<script src="https://unpkg.com/vue"></script>	
+	</head>
+	<body>
+
+		<div id="app">
+			{{ message }}
+		  
+		  	<ul>
+				<li v-for="todo,key in todos">{{todo}} <button @click="deleteTodo(key)">delete</button></li>
+			</ul>
+			<input type="text" v-model="todo_new" />		
+			<button @click="addTodo" >add</button>
+			
+		</div>
+	
+<script type="text/javascript" src="script.js"></script>
+	</body>
+</html>
+

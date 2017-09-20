@@ -1,33 +1,62 @@
 <template>
-  <div class="my-route">
-    {{ message }}
-		  <ul>
-			  <li v-for="todo,key in todos">{{todo}} <button @click="deleteTodo(key)">delete</button></li>
-			</ul>
-			<input type="text" v-model="todo_new" />		
-			<button @click="addTodo" >add</button>
+
+  <div>
+  <!-- <div :value="getProduct($route.params.id)"> -->
+			<!-- <div>{{ dataProducts[$route.params.id] }}</div> -->
+			<!-- <div>{{ getProduct($route.params.id) }}</div> -->
+			<div>{{ name }}</div>
+			<div>{{ price }}</div>
+			<div>{{ size }}</div>
+
+			<div class="btn-group col-md-2">
+        <div class="dropdown">
+          <button type="button" class="btn btn-dark" @click="addProduct()">
+            <span>Add to bag</span>
+          </button>
+        </div>
+      </div>
   </div>
+	
 </template>
 
 <script>
+import requestData from '../js/requestData'
+
 export default {
-  name: 'myroute',
+  name: 'product',
   data () {
     return {
-    message: 'Hello World!',
-	  todos: ['test1','test2'],
-	  todo_new: ''
+			dataProducts: requestData.data,
+			id: '',
+			name: '',
+			price: '',
+			size: ''
     }
   },
   methods:{
-		addTodo: function(){
-			this.todos.push(this.todo_new);
-			this.todo_new = '';
+		getProduct: function(id) {
+			let self = this
+			let arrRes = this.dataProducts.filter((el) => {
+				// console.log(id) 
+				if (el.id == id) return true
+			})
+			
+			if (arrRes){
+				this.name = arrRes[0].name
+				this.price = arrRes[0].price
+				this.size = arrRes[0].size
+			} 
 		},
-		deleteTodo:function(key){
-			this.todos.splice(key,1);
+
+		addProduct: function() {
+			
 		}
-	}
+	},
+	
+	created(){
+		this.id = this.$route.params.id
+    this.getProduct(this.id)
+  }
 }
 </script>
 

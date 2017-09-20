@@ -50,7 +50,7 @@ var options = {
       },
       {
         value:'yellow',
-        title:'Red Color'
+        title:'Yellow Color'
       },
       {
         value:'orange',

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ProductList from '@/components/ProductList'
 import ProductSingle from '@/components/ProductSingle'
+import ProductCart from '@/components/ProductCart'
 
 
 Vue.use(Router)
@@ -10,13 +11,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'ProductList',
+      name: 'Main page',
       component: ProductList
     },
     {
       path: '/product/:id',
-      name: 'ProductSingle',
+      name: 'Page of the current product',
       component: ProductSingle
+    },
+    {
+      path: '/cart',
+      name: 'Customer Cart',
+      component: ProductCart
     }
   ]
 })

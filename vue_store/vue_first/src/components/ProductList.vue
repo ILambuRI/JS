@@ -1,5 +1,5 @@
 <template>
-  <div class="main_section">
+  <div class="list_section">
 
     <div class="row justify-content-center text-center" id="filter_row" style="margin-top: 80px; margin-bottom: 50px;">
 
@@ -78,7 +78,7 @@ import filterButtonOpt from '../js/filterButtonOpt'
 import Product from './ProductPart'
 
 export default {
-  name: 'main_section',
+  name: 'list_section',
   data () {
     return {
       category: '',

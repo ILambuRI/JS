@@ -1,6 +1,6 @@
 <template>
 
-  <div class="single_section">
+  <div class="cart_section">
 			<div>{{ name }}</div>
 			<div>{{ price }}</div>
 
@@ -23,7 +23,7 @@
 
 			<div v-if="btnAccess == false"class="btn-group col-md-2">
         <div class="dropdown">
-					<router-link to="/cart">
+					<router-link to="/basket">
 						<button type="button" class="btn btn-dark">
 							<span>Proceed to checkout</span>
 						</button>
@@ -39,7 +39,7 @@ import requestData from '../js/requestData'
 import filterButtonOpt from '../js/filterButtonOpt'
 
 export default {
-  name: 'single_section',
+  name: 'cart_section',
   data () {
     return {
 			dataProducts: requestData.data,

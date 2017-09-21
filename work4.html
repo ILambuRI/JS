@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>JS magic</title>
+</head>
+
+<body>
+	<ul class="list"></ul>
+	<input type="text" id="text" /> <button id="btn_add">Add</button>
+
+	<script>
+		var $todo = [];
+		// var $todo = [];
+
+		// function xmlParser()
+		// {
+		// 	var xmlhttp = new XMLHttpRequest();
+		// 	var url = "todo.json";
+
+		// 	xmlhttp.onreadystatechange = function ()
+		// 	{
+		// 		if (this.readyState == 4 && this.status == 200)
+		// 		{
+		// 			var myArr = JSON.parse(xmlhttp.responseText);
+		// 			localStorage['todo'] = JSON.stringify(myArr);
+		// 			// return $todo;
+		// 			// console.log($todo);
+		// 		}
+		// 	};
+		// 	// $todo = JSON.parse(xmlhttp.responseText);
+		// 	xmlhttp.open("GET", url, true);
+		// 	xmlhttp.send();
+		// }
+
+		// $todo = myArr;
+
+		// var json = fetch('todo.json')
+		// 	.then(function (response)
+		// 	{
+		// 		return response.json()
+		// 	}).then(function (json)
+		// 	{
+		// 		console.log('parsed json', json)
+		// 	}).catch(function (ex)
+		// 	{
+		// 		console.log('parsing failed', ex)
+		// 	});
+
+		
+
+
+		var renderTask = function ()
+		{
+			if (localStorage['todo'])
+			{
+				$todo = JSON.parse(localStorage['todo']);
+			}
+			
+			var $list = document.querySelector('.list');
+			$list.innerHTML = '';
+			$todo.forEach(function ($val, $key)
+			{
+				var $nodeLi = document.createElement('li');
+				$nodeLi.innerHTML = $val;
+				var $nodeDelBtn = document.createElement('button');
+				$nodeDelBtn.innerHTML = 'Delete this!';
+				$nodeDelBtn.addEventListener('click', function ()
+				{
+					$todo.splice($key, 1);
+					renderTask();
+				});
+				$nodeLi.appendChild($nodeDelBtn);
+				$list.appendChild($nodeLi);
+			});
+			localStorage['todo'] = JSON.stringify($todo);
+		}
+
+		document.querySelector('#btn_add').addEventListener('click', function ()
+		{
+			$todo.push(document.querySelector('#text').value);
+			document.querySelector('#text').value = '';
+			renderTask();
+		});
+
+		// xmlParser();
+		renderTask();
+	</script>
+</body>
+
+</html>

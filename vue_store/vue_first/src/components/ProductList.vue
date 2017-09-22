@@ -59,7 +59,7 @@
     </div>
     
     <div class="row justify-content-center text-center" id="goods">
-        <one-product v-for="product in filteredProducts" :key="product.id" :product="product" ></one-product>
+        <one-card v-for="product in filteredProducts" :key="product.id" :product="product" ></one-card>
     </div>
     <!-- <div v-if="arrRes" class="row justify-content-center text-center" id="goods">
         <one-product v-for="product in arrRes" :key="product.id" :product="product" ></one-product>
@@ -75,7 +75,7 @@
 import requestData from '../js/requestData'
 import filterButtonOpt from '../js/filterButtonOpt'
 
-import Product from './ProductPart'
+import oneCard from './sections/OneCard'
 
 export default {
   name: 'list_section',
@@ -146,11 +146,11 @@ export default {
   },
 
   components:{
-    'one-product': Product
+    'one-card': oneCard
   },
 
   created() {
-    this.products = Product
+    // this.dataProducts = requestData.data
   },
 
   computed: {

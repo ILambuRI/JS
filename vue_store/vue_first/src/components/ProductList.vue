@@ -8,7 +8,7 @@
           <!-- @change="dataFilter" -->
           <select id="category" v-model="category">  
             <option value="">Category</option>
-            <option v-for="category in  options.categories" :key="" :value="category.value">
+            <option v-for="(category, index) in  options.categories" :key="index" :value="category.value">
               {{category.title}}
             </option>
           </select>
@@ -19,7 +19,7 @@
         <div class="dropdown">
           <select id="color" v-model="color">
             <option value="">Color</option>    
-            <option v-for="color in  options.colors" :key="" :value="color.value">
+            <option v-for="(color, index) in  options.colors" :key="index" :value="color.value">
               {{color.title}}
             </option>
           </select>
@@ -30,7 +30,7 @@
         <div class="dropdown">
           <select id="size" v-model="size">
             <option value="">Size</option>    
-            <option v-for="size in  options.sizes" :key="" :value="size.value">  
+            <option v-for="(size, index) in  options.sizes" :key="index" :value="size.value">  
               {{size.title}}
             </option>
           </select>
@@ -41,14 +41,14 @@
         <div class="dropdown">
           <select id="sort" v-model="sort">
             <option value="">Sort</option>    
-            <option v-for="sort in  options.sorts" :key="" :value="sort.value">
+            <option v-for="(sort, index) in  options.sorts" :key="index" :value="sort.value">
               {{sort.title}}
             </option>
           </select>
         </div>
       </div>
 
-      <div v-if="category || size || color || sort" class="btn-group col-md-2">
+      <div v-if="btnVisibility" class="btn-group col-md-2">
         <div class="dropdown">
           <button type="button" class="btn btn-dark" @click="clearBtn()">
             <span>Clear Filter &times;</span>
@@ -58,15 +58,9 @@
 
     </div>
     
-    <div class="row justify-content-center text-center" id="goods">
+    <div class="row justify-content-center text-center">
         <one-card v-for="product in filteredProducts" :key="product.id" :product="product" ></one-card>
     </div>
-    <!-- <div v-if="arrRes" class="row justify-content-center text-center" id="goods">
-        <one-product v-for="product in arrRes" :key="product.id" :product="product" ></one-product>
-    </div>
-    <div v-else class="row justify-content-center text-center" id="goods">
-        <one-product v-for="product in dataProducts" :key="product.id" :product="product" ></one-product>
-    </div> -->
 
   </div>
 </template>
@@ -74,7 +68,6 @@
 <script>
 import requestData from '../js/requestData'
 import filterButtonOpt from '../js/filterButtonOpt'
-
 import oneCard from './sections/OneCard'
 
 export default {
@@ -85,95 +78,43 @@ export default {
       size: '',
       color: '',
       sort: '',
-      arrRes: '',
       options: filterButtonOpt.options,
       dataProducts: requestData.data
     }
-  },
-
-  methods: {
-    clearBtn: function () {
-      if (this.category != '') this.category = ''
-      if (this.size != '') this.size = ''
-      if (this.color != '') this.color = ''
-      if (this.sort != '') this.sort = ''
-    },
-      /*
-    getByCategory: function(element, category) {
-      if (category == '') return true
-      if (element.category == category) return true
-      console.log(element);
-      return false
-    },
-    getBySize: function(element, size) {
-      if (size == '') return true;
-      if (element.size == size) return true;
-
-      return false;
-    },
-    getByColor: function(element, color) {
-      if (color == '') return true;
-      if (element.color == color) return true;
-
-      return false;
-    },
-
-    dataFilter: function(category) {
-      var self = this
-
-      let res = self.dataProducts.filter(function (element){
-          // console.log(element);
-          let cat = self.getByCategory(element, self.category)
-          let size = self.getBySize(element, self.size)
-          let color = self.getByColor(element, self.color)
-          if (cat && size && color) return true
-          
-          return false;
-      });
-
-      if (self.sort == 'low') {
-        self.arrRes = res.sort(function(a, b) { return a.price - b.price }); 
-      }
-      else if (self.sort == 'high') {
-        self.arrRes = res.sort(function(a, b) { return b.price - a.price });
-      }
-      else {
-        self.arrRes = res
-      }
-      // console.log(self.arrRes)
-    }
-    */
   },
 
   components:{
     'one-card': oneCard
   },
 
-  created() {
-    // this.dataProducts = requestData.data
-  },
-
   computed: {
-    filteredProducts () {
-      var self = this
+    btnVisibility() {
+      if (this.category || this.size || this.color || this.sort) {
+        return true
+      }
+      else {
+        return false
+      }
+    },
 
+    filteredProducts () {
       var checkSize = (el) => {
-        if (self.size == "") return true
-        if (el.size == self.size) return true
+        if (this.size == "") return true
+        if (el.size == this.size) return true
         
         return false
       }
 
       var checkCategory = (el) => {
-        if (self.category == "") return true
-        if (el.category == self.category) return true
+        if (this.category == "") return true
+        if (el.category == this.category) return true
         
         return false
       }
 
       var checkColor = (el) => {
-        if (self.color == "") return true
-        if (el.color == self.color) return true
+        if (this.color == "") return true
+        if (el.color == this.color) return true
         
         return false
       }
@@ -182,17 +123,25 @@ export default {
         return checkSize(el) && checkCategory(el) && checkColor(el)
       })
 
-      if (self.sort == 'low') {
-        return  arrRes.sort(function(a, b) { return a.price - b.price }); 
+      if (this.sort == 'low') {
+        return  arrRes.sort((a, b) => { return a.price - b.price }); 
       }
-      else if (self.sort == 'high') {
-        return arrRes.sort(function(a, b) { return b.price - a.price });
+      else if (this.sort == 'high') {
+        return arrRes.sort((a, b) => { return b.price - a.price });
       }
       else {
         return arrRes
       }
     }
+  },
+
+  methods: {
+    clearBtn: function () {
+      this.category = ''
+      this.size = ''
+      this.color = ''
+      this.sort = ''
+    }
   }
 }
-// console.log(dataProducts)
 </script>

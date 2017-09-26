@@ -1,7 +1,6 @@
 <template>
   <div class="single_section">
 
-		<!-- <div class="row justify-content-center text-center"  style="margin-top: 80px; margin-bottom: 50px;"> -->
 		<div class="row col-md-12" style="margin-top: 80px;">
 			<div class="col-md-6">
 				<carousel-3d>
@@ -26,13 +25,13 @@
 					<div class="dropdown">
 						<select id="size" v-model="size">
 							<option value="">Select your size</option>    
-							<option v-for="size in  options.sizes" :key="" :value="size.value">  
+							<option v-for="(size, index) in  options.sizes" :key="index" :value="size.value">  
 								{{size.title}}
 							</option>
 						</select>
 					</div>
 					<p></p>
-					<div v-if="btnAccess == true && size">
+					<div v-if="btnAccess && size">
 						<button type="button" class="btn btn-dark" @click="addProduct()">
 							<span>Add to bag</span>
 						</button>
@@ -55,52 +54,59 @@
 <script>
 import requestData from '../js/requestData'
 import filterButtonOpt from '../js/filterButtonOpt'
-
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 
 export default {
   name: 'single_section',
-  data () {
-    return {
-			dataProducts: requestData.data,
-			options: filterButtonOpt.options,
-			id: '',
-			name: '',
-			price: '',
-			size: '',
-			btnAccess: null,
-			goods: []
-    }
-	},
+    data() {
+      return {
+        dataProducts: requestData.data,
+        options: filterButtonOpt.options,
+        id: '',
+        name: '',
+        price: '',
+        size: '',
+        btnAccess: null,
+        goods: []
+      }
+    },
 	
 	watch: {
     size: function () {
       this.checkBtnAccess()
     }
-	},
+  },
+  
+  created() {
+    this.id = this.$route.params.id
+    this.getProductInfo(this.id)
+  },
+
+  components: {
+    Carousel3d,
+    Slide
+  },
 		
   methods: {
-		next() {
-				this.$refs.flickity.next();
+    next() {
+      this.$refs.flickity.next()
 		},
 
 		previous() {
-				this.$refs.flickity.previous();
+      this.$refs.flickity.previous()
 		},
 
-		getProductInfo: function(id) {
-			let self = this
-
+		getProductInfo(id) {
 			this.dataProducts.filter((el) => {
 				if (el.id == id) {
-					self.name = el.name
-					self.price = el.price
+					this.name = el.name
+					this.price = el.price
 					return
 				}
 			})
 		},
 
-		addProduct: function() {
+		addProduct() {
 			if (this.btnAccess && this.size) {
 				this.btnAccess = false
 
@@ -111,37 +117,22 @@ export default {
 				}
 
 				this.goods.push(item)
-
 				localStorage['goods'] = JSON.stringify(this.goods)
 			}
 		},
 
-		checkBtnAccess: function() {
-			let self = this
-			self.btnAccess = true
-			if (localStorage['goods'])
-			{
-				this.goods = JSON.parse(localStorage['goods']);
+		checkBtnAccess() {
+			this.btnAccess = true
+			if (localStorage['goods']) {
+				this.goods = JSON.parse(localStorage['goods'])
 
-				this.goods.forEach(function(element) {
-					if ( (element.code == self.id) &&
-							 (element.size == self.size) ) {
-						self.btnAccess = false
+				this.goods.forEach((element) => {
+					if ( (element.code == this.id) && (element.size == this.size) ) {
+						this.btnAccess = false
 					}
-				});
+				})
 			}
 		}
-
-	},
-	
-	created() {
-		this.id = this.$route.params.id
-		this.getProductInfo(this.id)
-	},
-
-	components: {
-		Carousel3d,
-		Slide
 	}
 }
 </script>

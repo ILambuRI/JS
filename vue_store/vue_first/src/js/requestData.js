@@ -5,7 +5,7 @@ var data = [
         category : 't-shirt',
         size : '30',
         color : 'green',
-        price : '100',
+        price : 100,
         name : 'Cool t-shirt',
         imgLabel : 'https://s-media-cache-ak0.pinimg.com/originals/41/86/33/4186337b4004ea96018a30b4749f8370.jpg'
     },

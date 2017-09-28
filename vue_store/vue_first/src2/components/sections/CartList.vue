@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <router-link :to="'/product/' + product.code">
+        <router-link :to="'/product/' + product.id">
           <img class="card-img-top"  :src="product.imgLabel" :alt="product.category + ' ' + product.name" />
         </router-link>
       </div>
@@ -84,18 +84,16 @@ export default {
 				goods.forEach((element) => {
           if (element.code == id && element.size == size) {
 						if (operation == 'minus' && element.count > 1) {
-              element.count--
-              this.product.count--
-              this.$emit('addToCart', operation)
+              element.count --
+              this.product.count --
             }
             else if (operation == 'plus') {
-              element.count++
-              this.product.count++
-              this.$emit('addToCart', operation)
+              element.count ++
+              this.product.count ++
             }
 					}
-        });
-        
+			  });
+      
         localStorage['goods'] = JSON.stringify(goods)
       }
     }

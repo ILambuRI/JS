@@ -1,7 +1,8 @@
 <template>
   <div class="list_section">
 
-    <div class="row justify-content-center text-center" id="filter_row" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="row justify-content-center text-center" id="filter_row" style="margin-top: 80px; margin-bottom: 50px;">
+
       <div class="btn-group col-md-2">
         <div class="dropdown">
           <!-- @change="dataFilter" -->
@@ -54,6 +55,7 @@
           </button>
         </div>
       </div>
+
     </div>
     
     <div class="row justify-content-center text-center">
@@ -66,7 +68,7 @@
 <script>
 import requestData from '../js/requestData'
 import filterButtonOpt from '../js/filterButtonOpt'
-import listOneCard from './sections/ListOneCard'
+import oneCard from './sections/OneCard'
 
 export default {
   name: 'list_section',
@@ -82,7 +84,7 @@ export default {
   },
 
   components:{
-    'one-card': listOneCard
+    'one-card': oneCard
   },
 
   computed: {
@@ -134,7 +136,7 @@ export default {
   },
 
   methods: {
-    clearBtn() {
+    clearBtn: function () {
       this.category = ''
       this.size = ''
       this.color = ''

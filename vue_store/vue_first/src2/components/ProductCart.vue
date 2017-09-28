@@ -4,13 +4,13 @@
 		<div class="row">
       <div class="col-md-8 text-center">
         <h2 class="text-left">Cart:</h2>
-        <cart-list v-for="product in userCart" :key="product.code" :product="product"
-        v-on:deleteItem="delItemUserCart" @addToCart="changeCartCnt">
+        <cart-list v-for="product in userCart" :key="product.code" :product="product" :userCart="userCart"
+        v-on:deleteItem="delItemUserCart">
         </cart-list>
       </div>
       <div class="col-md-4">
-        <cart-calculator  :userCart="userCart"></cart-calculator>
-        <cart-form v-if="userCart.length"></cart-form>
+        <cart-calculator  :userCart="userCart">
+        </cart-calculator>
       </div>
     </div>
 
@@ -23,7 +23,6 @@ import filterButtonOpt from '../js/filterButtonOpt'
 
 import cartList from './sections/CartList'
 import cartСalculator from './sections/CartСalculator'
-import cartForm from './sections/CartForm'
 
 export default {
   name: 'cart_section',
@@ -37,8 +36,7 @@ export default {
 
 	components:{
 	'cart-list': cartList,
-	'cart-calculator': cartСalculator,
-	'cart-form': cartForm
+	'cart-calculator': cartСalculator
   },
 
 	created() {
@@ -53,6 +51,7 @@ export default {
             el.imgLabel = element.imgLabel
             el.category = element.category
             el.price = element.price
+            // console.log(el)
             return
           }
         })
@@ -67,13 +66,7 @@ export default {
           this.userCart.splice(key, 1)
         }
       })
-
-      this.$emit('addToCart', 'delete')
     },
-
-    changeCartCnt(operation) {
-      this.$emit('addToCart', operation)
-    }
 	}
 }
 </script>

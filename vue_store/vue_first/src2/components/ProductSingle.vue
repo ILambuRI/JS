@@ -118,8 +118,6 @@ export default {
 
 				this.goods.push(item)
 				localStorage['goods'] = JSON.stringify(this.goods)
-
-				this.$emit('addToCart', 'plus')
 			}
 		},
 

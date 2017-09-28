@@ -3,7 +3,7 @@
 
     <div class="form-group">
       <h5 class="text-left">Voucher code:</h5>
-      <input v-model.trim="userInput" type="text" class="form-control" aria-describedby="emailHelp" :placeholder="userVoucher">
+      <input v-model.trim="userInput" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter your voucher here">
     </div>
     <button @click="addVoucher()" type="submit" class="btn btn-dark">Submit</button>
     <p></p>
@@ -54,13 +54,13 @@ export default {
     }
   },
 
-  props: ["userCart"],
-
   watch: {
     totalCart: function () {
       this.parseLocalTotal()
     }
   },
+
+  props: ["userCart"],
 
   computed: {
     cartTotal() {
@@ -74,28 +74,8 @@ export default {
 
     grandTotal() {
       this.total = 0
-      this.voucherReduction = 0
-
       if (this.totalCart > 0) {
         this.total = this.totalCart + +this.shipping
-
-        if (this.userVoucher) {
-          for (let key in this.voucher) {
-            if (key == this.userVoucher) {
-              let x = /(.eur$)/.exec(key)
-              if (x) {
-                this.total -= this.voucher[key]
-                this.voucherReduction = '-' + this.voucher[key]
-              }
-              else {
-                this.voucherReduction = this.total * this.voucher[key] / 100
-                this.total -= this.voucherReduction.toFixed(2)
-                this.total = this.total.toFixed(2)
-                this.voucherReduction = '-' + this.voucherReduction.toFixed(2)
-              }
-            }
-          }
-        }
       }
 
       return this.total
@@ -105,7 +85,7 @@ export default {
   created() {
     this.userCart.forEach((el) => {
       this.totalCart += +el.price * +el.count
-      })
+    })
 
     if (this.totalCart > 0) {
         this.total = this.totalCart + +this.shipping
@@ -116,27 +96,25 @@ export default {
 
   methods: {
     parseLocalTotal() {
-      let order = []
-
-      if (localStorage['order']) {
-        order = JSON.parse(localStorage['order'])
-        localStorage.removeItem("order");
+      let goods = []
+      if (localStorage['total']) {
+        goods = JSON.parse(localStorage['total'])
+        localStorage.removeItem("total");
       
-        order.forEach((element, key) => {
-          if (element.userVoucher && !this.userVoucher) {
+        goods.forEach((element, key) => {
+          if (element.userVoucher) {
             this.userVoucher = element.userVoucher
           }
         })
-        order = []
+        goods = []
       }
-
-      order.push({total: this.total,
+      goods.push({total: this.total,
                   totalCart: this.totalCart,
                   voucherReduction: this.voucherReduction,
                   userVoucher: this.userVoucher,
                   shipping: this.shipping
       })
-      localStorage['order'] = JSON.stringify(order)
+      localStorage['total'] = JSON.stringify(goods)
     },
 
     addVoucher() {

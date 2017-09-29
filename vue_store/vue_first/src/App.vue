@@ -1,8 +1,9 @@
 <template>
   <div class="col-md-10 mx-auto" id="app">
+
     <app-head :cartCnt="cartCnt"></app-head>
-    <!-- <img src="./assets/logo.png"> -->
     <router-view @addToCart="changeCartCnt"></router-view>
+
   </div>
 </template>
 
@@ -57,4 +58,3 @@ export default {
   }
 }
 </script>
-

@@ -30,7 +30,7 @@ export default new Router({
 
     {
       path: '/thx',
-      name: 'Thank for the order',
+      name: 'Thank for the order and history of the last order',
       component: ProductThank
     }
   ]

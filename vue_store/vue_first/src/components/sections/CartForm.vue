@@ -15,10 +15,28 @@
           <span class="custom-control-description font-weight-bold">PayPal</span>
         </label>
       </div>
-      <p><input v-model.trim="userFirstname" type="text" class="form-control" aria-describedby="emailHelp" placeholder="First name"></p>
-      <p><input v-model.trim="userLastname" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Last name"></p>
-      <p><input v-model.trim="userEmail" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email"></p>
-      <!-- <p>{{ validEmail }}</p> -->
+
+      <p>
+        <input v-model.trim="userFirstname" type="text" class="form-control" aria-describedby="emailHelp" placeholder="First name">
+        <small class="form-text text-muted">
+          <span v-if="validFirstname">Сorrectly!</span>
+          <span v-else>Your Firstname must be at least three characters ...</span>
+        </small>
+      </p>
+      <p>
+        <input v-model.trim="userLastname" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Last name">
+        <small class="form-text text-muted">
+          <span v-if="validLastname">Сorrectly!</span>
+          <span v-else>Your Lastname must be at least three characters ...</span>
+        </small>
+      </p>
+      <p>
+        <input v-model.trim="userEmail" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+        <small class="form-text text-muted">
+          <span v-if="validEmail">Сorrectly!</span>
+          <span v-else>exemple@exemple.com</span>
+        </small>
+      </p>
       <div class="custom-controls-stacked">
         <label class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" v-model="spam">

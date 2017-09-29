@@ -1,17 +1,26 @@
 <template>
   <div class="thx_section">
 
-    <div v-if="userOrder">
-      <h5 class="text-center">Thank you for your order dude {{ userOrder[0].userFirstname }}!</h5>
-      <h5 class="text-center">Your order:</h5>
+    <div class="row justify-content-md-center">
+      <div class="col-md-6">
+        <div v-if="userOrder">
+          <h5 class="text-center">Thank you for your order dude {{ userOrder[0].userFirstname }}!</h5>
+          <h5 class="text-center">Your order № {{ orderNum }}</h5>
+        </div>
+        <div v-else>
+          <h5 class="text-center">{{ userLastOrder[0].userFirstname }} your history of your last order № {{ userLastOrder[0].orderNum }}:</h5>
+          <p>Total: {{ userLastOrder[0].total }}</p>
+          <p>Shipping: {{ userLastOrder[0].shipping }}</p>
+          <p>Discount on a voucher: {{ userLastOrder[0].voucherReduction }}</p>
+          <p>Email: {{ userLastOrder[0].userEmail }}</p>
+          <h5 v-if="!userLastOrder" class="text-center">You have not made any orders yet ...</h5>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <thank-list v-for="product in userLastOrder[1]" :key="product.code" :product="product">
+        </thank-list>
+      </div>
     </div>
-    <div v-else>
-      <h5 class="text-center">History of last order:</h5>
-      <h5 v-if="!userLastOrder" class="text-center">You have not made any orders yet ...</h5>
-    </div>
-
-    <thank-list v-for="product in userLastOrder[1]" :key="product.code" :product="product">
-    </thank-list>
 
   </div>
 </template>

@@ -1,7 +1,6 @@
 <template>
   <div class="thank_list_section">
-    <div class="row justify-content-md-center">
-      <div class="col-md-6">
+
         <div>
           <span class="d-block bg-secondary col-md-12" style="height: 2px; margin-bottom: 10px; margin-top: 10px;"></span>
         </div>
@@ -17,8 +16,8 @@
                 <span class="text-secondary">Size</span><br>
                 <span class="font-weight-bold">{{ product.size }}</span>
               </div>
-              <div class="col-md-8">
-                <span class="font-weight-bold">{{ product.price }} EUR</span>
+              <div class="col-md-4">
+                <span class="font-weight-bold float-right">{{ product.price }} EUR</span>
               </div>
             </div>
 
@@ -27,8 +26,8 @@
                 <span class="text-secondary">Color</span><br>
                 <span class="font-weight-bold">{{ product.color }}</span>
               </div>
-              <div class="col-md-8">
-                <span class="font-weight-bold"> x {{ product.count }}</span>
+              <div class="col-md-4">
+                <span class="font-weight-bold float-right"> x {{ product.count }}</span>
               </div>
             </div>
           </div>
@@ -39,7 +38,6 @@
           </div>
         </div>
       </div>
-    </div>
 
   </div>
 </template>
